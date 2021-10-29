@@ -5,8 +5,10 @@ class CategoriesController < ApplicationController
     @category = Category.new(category_params)
     if @category.save
       render json: @category, status: 201, location: @category
+      @idea = Idea.new(idea_params)
+      render json: @idea, status: 201, location: @idea
     else
-      render json: @category.errors, status: :unprocessable_entity
+      render json: @category.errors, status: 422
     end
   end
 
@@ -39,5 +41,9 @@ class CategoriesController < ApplicationController
 
   def category_params
     params.require(:category).permit(:name)
+  end
+
+  def idea_params
+    params.require(:idea).permit(:category_id, :body)
   end
 end
