@@ -2,9 +2,11 @@ class CategoriesController < ApplicationController
   before_action :set_category, only: [:show, :update, :destroy]
 
   def create
-    @category = Category.new(category_params.merge(idea_params))
+    @category = Category.new(category_params)
     if @category.save
       render json: @category, status: 201, location: @category
+      @idea = Idea.new(idea_params)
+      render json: @idea, status: 201, location: @idea
     else
       render json: @category.errors, status: 422
     end
